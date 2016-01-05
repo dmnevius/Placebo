@@ -1,0 +1,23 @@
+{
+    "name": "Placebo",
+    "version": "1.0.0",
+    "description": "Create elements from CSS selectors",
+    "main": "placebo.js",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/dmnevius/Placebo"
+    },
+    "keywords": [
+        "JavaScript",
+        "DOM"
+    ],
+    "author": "dmnevius",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/dmnevius/Placebo/issues"
+    },
+    "homepage": "https://github.com/dmnevius/Placebo",
+    "dependencies": {
+        "euh.js": "*"
+    }
+}
