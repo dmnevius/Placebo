@@ -16,8 +16,5 @@
     "bugs": {
         "url": "https://github.com/dmnevius/Placebo/issues"
     },
-    "homepage": "https://github.com/dmnevius/Placebo",
-    "dependencies": {
-        "euh.js": "*"
-    }
+    "homepage": "https://github.com/dmnevius/Placebo"
 }
