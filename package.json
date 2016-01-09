@@ -1,5 +1,5 @@
 {
-    "name": "Placebo",
+    "name": "placebo-js",
     "version": "1.0.0",
     "description": "Create elements from CSS selectors",
     "main": "placebo.js",
@@ -16,5 +16,6 @@
     "bugs": {
         "url": "https://github.com/dmnevius/Placebo/issues"
     },
-    "homepage": "https://github.com/dmnevius/Placebo"
+    "homepage": "https://github.com/dmnevius/Placebo",
+    "ender": "ender.js"
 }

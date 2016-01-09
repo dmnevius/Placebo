@@ -1,1 +1,0 @@
-var placebo = window.placebo;
