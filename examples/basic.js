@@ -1,11 +1,19 @@
 var placebo = window.placebo;
 
-// Create a div element with class "foo"
-placebo('.foo');
+// Create a <p> element
+placebo('p');
 
-// Create a div element with id "bar"
+// Create a <p> element and place it in the document
+placebo('p').place();
+
+// Create a <p> with id foo
+placebo('p#foo');
+
+// Create a <div> with id bar
 placebo('#bar');
 
-// Create a p element with two classes, "foo" and "baz" and the id "bar"
-// These can be in any order
-placebo("p.foo.baz#bar");
+// Create a <p> with class baz
+placebo('p.baz');
+
+// Create a <div> with class baz
+placebo('.baz');
