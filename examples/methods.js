@@ -1,5 +1,6 @@
 // Methods - utilities for extending elements
-var placebo = window.placebo,
+var require = window.require,
+    placebo = require('placebo'),
     element;
 
 // Placebo is very friendly to other libraries!

@@ -28,7 +28,7 @@ placebo('.class');
 ```
 ### Set id:
 ``` js
-placebo('###id');
+placebo('#id');
 ```
 ### Clone all element:
 ``` js
@@ -154,7 +154,7 @@ placebo('input:read-write');
 ```
 ### Set URL anchor to the id of the element
 ``` js
-placebo('element###id:target');
+placebo('element#id:target');
 ```
 ### Unsupported modifiers
 :active, ::after, ::before, ::first-letter, ::first-line, :hover, :invalid, :link, :not, :root, ::selection, :valid, :visited are not supported.
