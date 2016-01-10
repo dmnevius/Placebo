@@ -1,8 +1,8 @@
-### Placebo - Create elements from CSS selectors
+# Placebo - Create elements from CSS selectors
 Create elements from CSS selectors
 
 ## Methods
-# .place()
+### .place()
 Places the placebo element in the document:
 ``` js
 placebo('element').place();
@@ -18,43 +18,43 @@ For selectors that modify the order or siblings, Placebo's .place must be used.
 These selectors are "*", ",", "+", "~", :first-child, :last-child, :nth-child, :nth-last-child, :only-child, :first-of-type, :last-of-type, :nth-of-type, :nth-last-of-type, :only-of-type, :focus, and :target.
 
 ## Features
-# Create an element:
+### Create an element:
 ``` js
 placebo('element');
 ```
-# Add a class:
+### Add a class:
 ``` js
 placebo('.class');
 ```
-# Set id:
+### Set id:
 ``` js
-placebo('#id');
+placebo('###id');
 ```
-# Clone all element:
+### Clone all element:
 ``` js
 placebo('*');
 ```
-# Create multiple elements:
+### Create multiple elements:
 ``` js
 placebo('element, element');
 // Or
 placebo('element + element');
 ```
-# Create an element inside another element:
+### Create an element inside another element:
 ``` js
 placebo('element element');
 // Or
 placebo('element > element');
 ```
-# Create multiple elements in reverse order:
+### Create multiple elements in reverse order:
 ``` js
 placebo('element ~ element');
 ```
-# Set empty attribute:
+### Set empty attribute:
 ``` js
 placebo('element[attribute]');
 ```
-# Set an attribute:
+### Set an attribute:
 ``` js
 // Any of the following will work:
 placebo('element[attribute=value]');
@@ -64,97 +64,97 @@ placebo('element[attribute^=value]');
 placebo('element[attribute$=value]');
 placebo('element[attribute*=value]');
 ```
-# Checked input
+### Checked input
 ``` js
 placebo('input:checked');
 ```
-# Disabled input
+### Disabled input
 ``` js
 placebo('input:disabled');
 ```
-# Enabled input
+### Enabled input
 ``` js
 placebo('input:enabled');
 ```
-# Remove all children
+### Remove all children
 ``` js
 placebo('element:empty');
 ```
-# Set as first child
+### Set as first child
 ``` js
 placebo('element:first-child');
 ```
-# Set as last child
+### Set as last child
 ``` js
 placebo('element:last-child');
 ```
-# Set as nth child
+### Set as nth child
 ``` js
 placebo('element:nth-child(n)');
 ```
-# Set as nth last child
+### Set as nth last child
 ``` js
 placebo('element:nth-last-child(n)');
 ```
-# Set as only child
+### Set as only child
 ``` js
 placebo('element:only-child');
 ```
-# Set as first of type
+### Set as first of type
 ``` js
 placebo('element:first-of-type');
 ```
-# Set as last of type
+### Set as last of type
 ``` js
 placebo('element:last-of-type');
 ```
-# Set as nth of type
+### Set as nth of type
 ``` js
 placebo('element:nth-of-type(n)');
 ```
-# Set as nth last of type
+### Set as nth last of type
 ``` js
 placebo('element:nth-last-of-type(n)');
 ```
-# Set as only of type
+### Set as only of type
 ``` js
 placebo('element:only-of-type');
 ```
-# Focus input
+### Focus input
 ``` js
 placebo('input:focus');
 ```
-# Set random valid value
+### Set random valid value
 ``` js
 placebo('input:in-range');
 ```
-# Set random invalid value
+### Set random invalid value
 ``` js
 placebo('input:out-of-range');
 ```
-# Set language
+### Set language
 ``` js
 placebo('element:lang(language)');
 ```
-# Set optional input
+### Set optional input
 ``` js
 placebo('input:optional');
 ```
-# Set required input
+### Set required input
 ``` js
 placebo('input:required');
 ```
-# Set read-only
+### Set read-only
 ``` js
 placebo('input:read-only');
 ```
-# Set read and write
+### Set read and write
 ``` js
 placebo('input:read-write');
 ```
-# Set URL anchor to the id of the element
+### Set URL anchor to the id of the element
 ``` js
-placebo('element#id:target');
+placebo('element###id:target');
 ```
-# Unsupported modifiers
+### Unsupported modifiers
 :active, ::after, ::before, ::first-letter, ::first-line, :hover, :invalid, :link, :not, :root, ::selection, :valid, :visited are not supported.
