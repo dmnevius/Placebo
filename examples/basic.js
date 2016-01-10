@@ -1,4 +1,7 @@
-var placebo = window.placebo;
+// Basic usage - creating elements
+// The next two lines assume placebo is being used with Ender
+var $ = window.$,
+    placebo = $.placebo;
 
 // Create a <p> element
 // Note that without calling .place() the elements will remain in limbo
@@ -125,6 +128,6 @@ placebo('input:read-write');
 placebo('a#example:target');
 
 // Create an element using a combination the modifiers and places it in the document
-placebo('a#example:target:only-of-type[target=_blank].baz.bar:focus ~ p.baz:lang(en) ~ a[data-disallowed]').place();
+placebo('a#example:target:only-of-type[target=_blank].baz.bar:focus ~ p.baz:lang(en) ~ a[data-disallowed]');
 
 // :active, ::after, ::before, ::first-letter, ::first-line, :hover, :invalid, :link, :not, :root, ::selection, :valid, :visited are not supported

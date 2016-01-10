@@ -26,6 +26,11 @@
                 load += 1;
                 loadOrder.push(load);
                 special.push(def);
+            } else if (data.extra.contains) {
+                if (!element.getAttribute("data-placebo-prevent-children")) {
+                    child = document.createElement(data.extra.contains);
+                    element.appendChild(child);
+                }
             } else if (data.extra.child) {
                 if (!element.getAttribute("data-placebo-prevent-children")) {
                     child = document.createElement(data.extra.child);

@@ -1,11 +1,5 @@
 (function (context) {
     'use strict';
-    var console = context.console || function () {};
-    if (context.$) {
-        if (context.$['ø']) {
-            console = context.$['ø'];
-        }
-    }
     function build(elements, data, loadOrder, load, special, def, done) {
         var element = elements[elements.length - 1],
             child,
@@ -233,18 +227,40 @@
         return {
             "done": done,
             "elements": elements,
+            "export": function (map) {
+                var i;
+                for (i = 0; i < this.elements.length; i += 1) {
+                    map(this.elements[i]);
+                }
+                return this;
+            },
             "loadOrder": loadOrder,
+            "on": function (event, callback) {
+                var i;
+                for (i = 0; i < this.elements.length; i += 1) {
+                    this.elements[i].addEventListener(event, callback);
+                }
+                return this;
+            },
             "place": function (parent) {
                 var load = [],
                     i,
                     b,
-                    c;
+                    c,
+                    d;
                 if (!parent) {
                     if (document.body) {
-                        parent = document.body;
+                        parent = [document.body];
                     } else {
                         throw "Placebo requires a document with a body!";
                     }
+                }
+                if (typeof parent === "string") {
+                    parent = document.querySelectorAll(parent);
+                } else if (parent.placebo) {
+                    parent = parent.elements;
+                } else if (!parent.length) {
+                    parent = [parent];
                 }
                 function min(item, array) {
                     var a;
@@ -274,14 +290,35 @@
                 }
                 load = sort(this.loadOrder, this.elements, this.special, [[], []]);
                 for (b = 0; b < load[0].length; b += 1) {
-                    load[1][b](load[0][b], parent);
+                    for (d = 0; d < parent.length; d += 1) {
+                        load[1][b](load[0][b], parent[d]);
+                    }
                 }
                 for (c = 0; c < this.done.length; c += 1) {
                     this.done[c](parent);
                 }
+                return this;
             },
             "placebo": true,
-            "special": special
+            "special": special,
+            "style": function (styles) {
+                var keys = Object.getOwnPropertyNames(styles),
+                    i,
+                    a;
+                for (i = 0; i < keys.length; i += 1) {
+                    for (a = 0; a < this.elements.length; a += 1) {
+                        this.elements[a].style[keys[i]] = styles[keys[i]];
+                    }
+                }
+                return this;
+            },
+            "text": function (text) {
+                var i;
+                for (i = 0; i < this.elements.length; i += 1) {
+                    this.elements[i].innerHTML = text;
+                }
+                return this;
+            }
         };
     }
     context.placebo = placebo;

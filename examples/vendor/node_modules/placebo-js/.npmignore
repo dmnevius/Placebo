@@ -47,4 +47,4 @@ Temporary Items
 .apdisk
 
 # Libraries used for testing
-/vendor
+/examples/vendor
