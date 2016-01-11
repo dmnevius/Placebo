@@ -2,7 +2,7 @@
   * =============================================================
   * Ender: open module JavaScript framework (https://enderjs.com)
   * Build: ender build bonzo placebo-js
-  * Packages: ender-core@2.0.0 ender-commonjs@1.0.8 bonzo@2.0.0 placebo-js@1.0.3
+  * Packages: ender-core@2.0.0 ender-commonjs@1.0.8 bonzo@2.0.0 placebo-js@1.0.7
   * =============================================================
   */
 
@@ -4240,6 +4240,14 @@
                       }      
                       return this;      
                   },      
+                  "html": function() {      
+                      var wrap = document.createElement('div'),      
+                          i;      
+                      for (i = 0; i < this.elements.length; i += 1) {      
+                          wrap.appendChild(this.elements[i]);      
+                      }      
+                      return wrap.innerHTML;      
+                  },      
                   "loadOrder": loadOrder,      
                   "on": function(event, callback) {      
                       var i;      
@@ -4332,12 +4340,21 @@
                   }      
               };      
           }      
-          context.placebo = placebo;      
+          if (typeof module !== "undefined" && module.exports) {      
+              module.exports = placebo;      
+          } else if (typeof define === "function" && define.amd) {      
+              define(function() {      
+                  return placebo;      
+              });      
+          } else {      
+              context.placebo = placebo;      
+          }      
       }(this));
     },
     'ender': function (module, exports, require, global) {
       (function ($) {      
           'use strict';      
+          var placebo = require('placebo-js');      
           $.ender(placebo);      
           $.ender({      
               placebo: placebo      

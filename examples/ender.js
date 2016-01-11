@@ -1,7 +1,7 @@
 var $ = window.$,
     require = window.require,
     placebo = window.placebo,
-    placebo2 = require('placebo');
+    placebo2 = require('placebo-js');
 
 // Global object
 placebo('div#foo').place();

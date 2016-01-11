@@ -38,3 +38,7 @@ placebo('p.red').text('Red').style({
     color: 'red',
     fontStyle: 'italic'
 }).place();
+
+// Get elements as HTML text
+// Will not continue the chain
+console.log(placebo('[foo=bar]').text('Example').html());

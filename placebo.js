@@ -2711,6 +2711,14 @@
                 }
                 return this;
             },
+            "html": function() {
+                var wrap = document.createElement('div'),
+                    i;
+                for (i = 0; i < this.elements.length; i += 1) {
+                    wrap.appendChild(this.elements[i]);
+                }
+                return wrap.innerHTML;
+            },
             "loadOrder": loadOrder,
             "on": function(event, callback) {
                 var i;
@@ -2803,5 +2811,11 @@
             }
         };
     }
-    context.placebo = placebo;
+    if (typeof define === "function" && define.amd) {
+        define(function() {
+            return placebo;
+        });
+    } else {
+        context.placebo = placebo;
+    }
 }(this));
