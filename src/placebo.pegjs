@@ -15,9 +15,9 @@ child = " "? ">" " "? e:element extra:extra? {return {"child":e.join(""),"extra"
 ichild = " "? "+" " "? e:element extra:extra? {return {"immediate_child":e.join(""),"extra":extra||{}}}
 after = " "? "~" " "? e:element extra:extra? {return {"after":e.join(""),"extra":extra||{}}}
 attr = attr:valid* {return {"attr":attr.join("")}}
-equal = attr:valid* " "? "=" " "? val:valid* {return {"attr_is":attr.join(""),"value":val.join("")}}
-hasword = attr:valid* " "? "~=" " "? val:valid* {return {"attr_has_word":attr.join(""),"value":val.join("")}}
-startsh = attr:valid* " "? "|=" " "? val:valid* {return {"attr_starts_hyphen":attr.join(""),"value":val.join("")}}
-starts = attr:valid* " "? "^=" " "? val:valid* {return {"attr_starts":attr.join(""),"value":val.join("")}}
-end = attr:valid* " "? "$=" " "? val:valid* {return {"attr_ends":attr.join(""),"value":val.join("")}}
-has = attr:valid* " "? "*=" " "? val:valid* {return {"attr_has":attr.join(""),"value":val.join("")}}
+equal = attr:valid* " "? "=" " "? val:[^\]]* {return {"attr_is":attr.join(""),"value":val.join("")}}
+hasword = attr:valid* " "? "~=" " "? val:[^\]]* {return {"attr_has_word":attr.join(""),"value":val.join("")}}
+startsh = attr:valid* " "? "|=" " "? val:[^\]]* {return {"attr_starts_hyphen":attr.join(""),"value":val.join("")}}
+starts = attr:valid* " "? "^=" " "? val:[^\]]* {return {"attr_starts":attr.join(""),"value":val.join("")}}
+end = attr:valid* " "? "$=" " "? val:[^\]]* {return {"attr_ends":attr.join(""),"value":val.join("")}}
+has = attr:valid* " "? "*=" " "? val:[^\]]* {return {"attr_has":attr.join(""),"value":val.join("")}}
