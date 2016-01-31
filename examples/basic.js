@@ -1,7 +1,6 @@
 // Basic usage - creating elements
 // The next two lines assume placebo is being used with Ender
-var require = window.require,
-    placebo = require('placebo-js');
+var placebo = window.placebo;
 
 // Create a <p> element
 // Note that without calling .place() the elements will remain in limbo

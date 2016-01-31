@@ -4,7 +4,7 @@ element = node:(valid / "*")* {return node}
 extra = attributes / pseudo / pseudoSpecial / pseudoSpecialO / multi / child / ichild / after / contains / brackets
 attributes = class / id
 pseudo = ":" ":"? p:("active" / "after" / "before" / "checked" / "disabled" / "empty" / "enabled" / "first-child" / "first-letter" / "first-line" / "first-of-type" / "focus" / "hover" / "in-range" / "invalid" / "last-child" / "last-of-type" / "link" / "only-of-type" / "only-child" / "optional" / "out-of-range" / "read-only" / "read-write" / "required" / "root" / "selection" / "target" / "valid" / "visited") extra:extra? {var a={};a.pseudo=p;a.extra=extra||{};return a}
-pseudoSpecial = ":" p:("lang" / "nth-child" / "nth-last-child" / "nth-last-of-type" / "nth-of-type") "(" v:(valid / [0-9])* ")" extra:extra? {var a={};a.pseudo=p;a.value=v.join("");a.extra=extra||{};return a}
+pseudoSpecial = ":" p:("lang" / "nth-child" / "nth-last-child" / "nth-last-of-type" / "nth-of-type" / "text") "(" v:(valid / [0-9])* ")" extra:extra? {var a={};a.pseudo=p;a.value=v.join("");a.extra=extra||{};return a}
 pseudoSpecialO = ":" p:("not") "(" e:element? v:extra? ")" extra:extra? {var a={};a.pseudo=p;a.value={};a.value.node=e.join("")||"div";a.value.extra=v;a.extra=extra||{};return a}
 brackets = "[" cond:(equal / hasword / has / startsh / starts / end / attr) "]" extra:extra? {cond.extra=extra||{};return cond}
 class = "." val:valid* extra:extra? {return {"class":val.join(""),"extra":extra||{}}}

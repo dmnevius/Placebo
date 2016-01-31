@@ -192,6 +192,8 @@
                     if (element.getAttribute("id")) {
                         history.pushState({}, document.title, "#" + element.getAttribute("id"));
                     }
+                } else if (data.extra.pseudo === "text") {
+                    element.innerHTML = data.extra.value;
                 }
             }
             return build(elements, data.extra, loadOrder, load, special, def, done);
