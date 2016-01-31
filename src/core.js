@@ -1,5 +1,8 @@
 (function (context) {
     'use strict';
+    function format(string) {
+      return string.replace(/^\s/, "").replace(/\s$/, "");
+    }
     function build(elements, data, loadOrder, load, special, def, done) {
         var element = elements[elements.length - 1],
             child,
@@ -16,27 +19,27 @@
             } else if (data.extra.id) {
                 element.setAttribute("id", ((element.getAttribute("id") || "") + " " + data.extra.id).replace(/^\s/, ""));
             } else if (data.extra.node) {
-                elements.push(document.createElement(data.extra.node));
+                elements.push(document.createElement(format(data.extra.node)));
                 load += 1;
                 loadOrder.push(load);
                 special.push(def);
             } else if (data.extra.contains) {
                 if (!element.getAttribute("data-placebo-prevent-children")) {
-                    child = document.createElement(data.extra.contains);
+                    child = document.createElement(format(data.extra.contains));
                     element.appendChild(child);
                 }
             } else if (data.extra.child) {
                 if (!element.getAttribute("data-placebo-prevent-children")) {
-                    child = document.createElement(data.extra.child);
+                    child = document.createElement(format(data.extra.child));
                     element.appendChild(child);
                 }
             } else if (data.extra.immediate_child) {
-                elements.push(document.createElement(data.extra.immediate_child));
+                elements.push(document.createElement(format(data.extra.immediate_child)));
                 load += 1;
                 loadOrder.push(load);
                 special.push(def);
             } else if (data.extra.after) {
-                elements.push(document.createElement(data.extra.after));
+                elements.push(document.createElement(format(data.extra.after)));
                 load += 1;
                 loadOrder.splice(0, 0, load);
                 special.push(def);
@@ -220,9 +223,7 @@
             special = [def];
             done = [];
         } else {
-            data.node = data.node.replace(/^\s/, "");
-            data.node = data.node.replacE(/\s$/, "");
-            built = build([document.createElement(data.node)], data, [0], 1, [def], def, []);
+            built = build([document.createElement(format(data.node))], data, [0], 1, [def], def, []);
             elements = built[0];
             loadOrder = built[1];
             special = built[2];
