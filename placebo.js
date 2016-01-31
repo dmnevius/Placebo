@@ -39,8 +39,8 @@
             peg$startRuleFunction  = peg$parsestart,
 
             peg$c0 = function(e, extra) {return {"node":e.join("")||"div","extra":extra}},
-            peg$c1 = /^[^.#,>+~[\]|=\^$*:)( ]/,
-            peg$c2 = { type: "class", value: "[^\\.\\#\\,\\>\\+\\~\\[\\]\\|\\=\\^\\$\\*\\:\\)\\(\\ ]", description: "[^\\.\\#\\,\\>\\+\\~\\[\\]\\|\\=\\^\\$\\*\\:\\)\\(\\ ]" },
+            peg$c1 = /^[^.#,>+~[\]|=\^$*:)(s]/,
+            peg$c2 = { type: "class", value: "[^\\.\\#\\,\\>\\+\\~\\[\\]\\|\\=\\^\\$\\*\\:\\)\\(\\s]", description: "[^\\.\\#\\,\\>\\+\\~\\[\\]\\|\\=\\^\\$\\*\\:\\)\\(\\s]" },
             peg$c3 = "*",
             peg$c4 = { type: "literal", value: "*", description: "\"*\"" },
             peg$c5 = function(node) {return node},

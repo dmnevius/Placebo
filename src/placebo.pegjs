@@ -1,5 +1,5 @@
 start = e:element? extra:extra? {return {"node":e.join("")||"div","extra":extra}}
-valid = [^\.\#\,\>\+\~\[\]\|\=\^\$\*\:\)\(\ ]
+valid = [^\.\#\,\>\+\~\[\]\|\=\^\$\*\:\)\(\s]
 element = node:(valid / "*")* {return node}
 extra = attributes / pseudo / pseudoSpecial / pseudoSpecialO / multi / child / ichild / after / contains / brackets
 attributes = class / id
