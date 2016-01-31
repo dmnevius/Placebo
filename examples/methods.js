@@ -40,4 +40,4 @@ placebo('p.red').text('Red').style({
 
 // Get elements as HTML text
 // Will not continue the chain
-console.log(placebo('[foo=bar]').text('Example').html());
+//console.log(placebo('[foo=bar]').text('Example').html());

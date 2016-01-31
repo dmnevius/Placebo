@@ -2287,6 +2287,8 @@
             special = [def];
             done = [];
         } else {
+            data.node = data.node.replace(/^\s/, "");
+            data.node = data.node.replacE(/\s$/, "");
             built = build([document.createElement(data.node)], data, [0], 1, [def], def, []);
             elements = built[0];
             loadOrder = built[1];
