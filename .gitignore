@@ -47,10 +47,9 @@ Temporary Items
 .apdisk
 
 # Libraries used for testing
-examples/vendor/
-examples/vendor/node_modules/
-examples/vendor/ender.js
-examples/vendor/ender.js.map
-examples/vendor/ender.min.js
-examples/vendor/ender.min.js.map
-examples/vendor/ender.js
+examples/node_modules/
+examples/ender.js
+examples/ender.js.map
+examples/ender.min.js
+examples/ender.min.js.map
+examples/ender.js
