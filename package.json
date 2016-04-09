@@ -1,4 +1,5 @@
 {
+<<<<<<< HEAD
   "name": "placebo-js",
   "version": "2.0.0",
   "description": "Create DOM elements from CSS selectors",
@@ -32,4 +33,25 @@
     "qunitjs": "^1.23.0"
   },
   "ender": "src/ender.js"
+=======
+    "name": "placebo-js",
+    "version": "1.1.1",
+    "description": "Create elements from CSS selectors",
+    "main": "placebo.js",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/dmnevius/Placebo"
+    },
+    "keywords": [
+        "JavaScript",
+        "DOM"
+    ],
+    "author": "dmnevius",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/dmnevius/Placebo/issues"
+    },
+    "homepage": "https://github.com/dmnevius/Placebo",
+    "ender": "ender.js"
+>>>>>>> 145b6d7ac9bf9bd9e8d83294b3e7caff428630b8
 }
