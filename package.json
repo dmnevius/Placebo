@@ -1,0 +1,35 @@
+{
+  "name": "placebo-js",
+  "version": "2.0.0",
+  "description": "Create DOM elements from CSS selectors",
+  "main": "placebo.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dmnevius/Placebo.git"
+  },
+  "keywords": [
+    "css",
+    "javascript",
+    "utility",
+    "dom",
+    "selectors",
+    "ender"
+  ],
+  "author": "dmnevius",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dmnevius/Placebo/issues"
+  },
+  "homepage": "https://github.com/dmnevius/Placebo#readme",
+  "devDependencies": {
+    "grunt": "^1.0.1",
+    "grunt-contrib-concat": "^1.0.0",
+    "grunt-contrib-jshint": "^1.0.0",
+    "grunt-contrib-uglify": "^1.0.1",
+    "grunt-jsbeautifier": "^0.2.10",
+    "grunt-shell": "^1.2.1",
+    "pegjs": "^0.9.0",
+    "qunitjs": "^1.23.0"
+  },
+  "ender": "src/ender.js"
+}

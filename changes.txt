@@ -1,0 +1,3 @@
+- Re-wrote entire core with an internal API to make future releases easier
+- Re-wrote the entire parser to be much more efficient and usable
+- Began using Grunt for automating tasks
