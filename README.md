@@ -1,165 +1,51 @@
-<<<<<<< HEAD
 # Placebo
-## Create DOM elements from CSS selectors
-=======
-# Placebo - Create elements from CSS selectors
-Create elements from CSS selectors
 
-## Methods
-### .place()
-Places the placebo element in the document:
-``` js
-placebo('element').place();
-```
-Optional parameter parent to append the element(s) to: (default is document.body)
-``` js
-placebo('element').place(document.body);
-// Also works with other placebo elements
-var parent = placebo('#parent');
-placebo('element').place(parent);
-```
-For selectors that modify the order or siblings, Placebo's .place must be used.
-These selectors are "*", ",", "+", "~", :first-child, :last-child, :nth-child, :nth-last-child, :only-child, :first-of-type, :last-of-type, :nth-of-type, :nth-last-of-type, :only-of-type, :focus, and :target.
+There are plenty of libraries that use CSS selectors to find elements on a page, but Placebo takes those selectors and instead creates elements to match them.
 
-## Features
-### Create an element:
-``` js
-placebo('element');
+## Usage
+Once you have loaded Placebo, you will have access to a global ``placebo`` function. Passing CSS selectors into this function will return an object with the generated elements and other helpful tools.
+
+Using Placebo is easy; just think of the CSS selector to match the element you want to create and then pass that to Placebo.
 ```
-### Add a class:
-``` js
-placebo('.class');
+placebo("div.foo") // <div class="foo"></div>
+placebo("div > p") // <div><p></p></div>
+placebo("a[target=_blank]") // <a target="_blank"></a>
 ```
-### Set id:
-``` js
-placebo('#id');
+
+### Properties
+The following properties are returned by ``placebo()``:
+#### elements
+``elements`` is an array containing a list of elements created by Placebo. ``elements`` is helpful when using Placebo with other libraries such as jQuery or Bonzo.
+
 ```
-### Clone all element:
-``` js
-placebo('*');
+$("body").append(placebo("div > p").elements);
 ```
-### Create multiple elements:
-``` js
-placebo('element, element');
-// Or
-placebo('element + element');
+__Without using .elements, placebo will not work with other libraries!__
+#### html
+``html()`` is a function that returns the elements as plain HTML.
 ```
-### Create an element inside another element:
-``` js
-placebo('element element');
-// Or
-placebo('element > element');
+placebo("div > p").html() // Returns: "<div><p></p></div>"
 ```
-### Create multiple elements in reverse order:
-``` js
-placebo('element ~ element');
+#### place
+``place(parent)`` is a helper function that places the elements in the specified parent. ``place`` is helpful to quickly put new elements on the page.
 ```
-### Set empty attribute:
-``` js
-placebo('element[attribute]');
+placebo("a[href=#]").place(document.body) // <a href="#"></a> is now in the document body
 ```
-### Set an attribute:
-``` js
-// Any of the following will work:
-placebo('element[attribute=value]');
-placebo('element[attribute~=value]');
-placebo('element[attribute|=value]');
-placebo('element[attribute^=value]');
-placebo('element[attribute$=value]');
-placebo('element[attribute*=value]');
+
+## Installation
+Get Placebo directly by downloading either [placebo.js](https://raw.githubusercontent.com/dmnevius/Placebo/master/placebo.js) or [placebo.min.js](https://raw.githubusercontent.com/dmnevius/Placebo/master/placebo.min.js) from this repository or get Placebo from a package manager:
 ```
-### Checked input
-``` js
-placebo('input:checked');
+npm install placebo-js
 ```
-### Disabled input
-``` js
-placebo('input:disabled');
 ```
-### Enabled input
-``` js
-placebo('input:enabled');
+bower install placebo-js
 ```
-### Remove all children
-``` js
-placebo('element:empty');
+Placebo also works with [Ender](http://enderjs.com/):
 ```
-### Set as first child
-``` js
-placebo('element:first-child');
+ender add placebo-js
 ```
-### Set as last child
-``` js
-placebo('element:last-child');
 ```
-### Set as nth child
-``` js
-placebo('element:nth-child(n)');
+$.placebo
+// or
+require("placebo");
 ```
-### Set as nth last child
-``` js
-placebo('element:nth-last-child(n)');
-```
-### Set as only child
-``` js
-placebo('element:only-child');
-```
-### Set as first of type
-``` js
-placebo('element:first-of-type');
-```
-### Set as last of type
-``` js
-placebo('element:last-of-type');
-```
-### Set as nth of type
-``` js
-placebo('element:nth-of-type(n)');
-```
-### Set as nth last of type
-``` js
-placebo('element:nth-last-of-type(n)');
-```
-### Set as only of type
-``` js
-placebo('element:only-of-type');
-```
-### Focus input
-``` js
-placebo('input:focus');
-```
-### Set random valid value
-``` js
-placebo('input:in-range');
-```
-### Set random invalid value
-``` js
-placebo('input:out-of-range');
-```
-### Set language
-``` js
-placebo('element:lang(language)');
-```
-### Set optional input
-``` js
-placebo('input:optional');
-```
-### Set required input
-``` js
-placebo('input:required');
-```
-### Set read-only
-``` js
-placebo('input:read-only');
-```
-### Set read and write
-``` js
-placebo('input:read-write');
-```
-### Set URL anchor to the id of the element
-``` js
-placebo('element#id:target');
-```
-### Unsupported modifiers
-:active, ::after, ::before, ::first-letter, ::first-line, :hover, :invalid, :link, :not, :root, ::selection, :valid, :visited are not supported.
->>>>>>> 145b6d7ac9bf9bd9e8d83294b3e7caff428630b8

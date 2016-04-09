@@ -27,6 +27,13 @@ placebo.interface = function (elements) {
         container.appendChild(this.elements[i]);
       }
       return container.innerHTML;
+    },
+    "place": function (parent) {
+      var i;
+      for (i = 0; i < this.elements.length; i += 1) {
+        parent.appendChild(this.elements[i]);
+      }
+      return parent;
     }
   };
   return interface;
