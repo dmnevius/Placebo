@@ -1,5 +1,8 @@
 QUnit.test("attributes", function (assert) {
 
+  // Default element
+  assert.ok(placebo("[foo=bar]").html() == "<div foo=\"bar\"></div>");
+
   // Empty attribute
   assert.ok(placebo("div[foo]").html() == "<div foo=\"\"></div>");
   assert.ok(placebo("div[foo=]").html() == "<div foo=\"\"></div>");
@@ -13,6 +16,9 @@ QUnit.test("attributes", function (assert) {
   assert.ok(placebo("div[foo^=bar]").html() == "<div foo=\"bar\"></div>");
   assert.ok(placebo("div[foo$=bar]").html() == "<div foo=\"bar\"></div>");
   assert.ok(placebo("div[foo*=bar]").html() == "<div foo=\"bar\"></div>");
+
+  // Attributes with complex values
+  assert.ok(placebo("link[href=http://example.com/styles.css]").html() == "<link href=\"http://example.com/styles.css\">");
 });
 
 QUnit.test("children", function (assert) {
@@ -39,6 +45,9 @@ QUnit.test("children", function (assert) {
 
 QUnit.test("class", function (assert) {
 
+  // Empty element
+  assert.ok(placebo(".class").html() == "<div class=\"class\"></div>");
+
   // Simple usage on a <p>
   assert.ok(placebo("p.class").html() == "<p class=\"class\"></p>");
 
@@ -59,6 +68,9 @@ QUnit.test("class", function (assert) {
 
 QUnit.test("element", function (assert) {
 
+  // Empty string
+  assert.ok(placebo("").html() == "<div></div>");
+
   // Using a defined element
   assert.ok(placebo("p").html() == "<p></p>");
 
@@ -68,6 +80,9 @@ QUnit.test("element", function (assert) {
 });
 
 QUnit.test("id", function (assert) {
+
+  // Empty element
+  assert.ok(placebo("#id").html() == "<div id=\"id\"></div>");
 
   // Basic usage
   assert.ok(placebo("div#id").html() == "<div id=\"id\"></div>");
@@ -115,9 +130,20 @@ QUnit.test("siblings", function (assert) {
 
 });
 
+QUnit.test("place", function (assert) {
+
+  // Example .place
+  placebo("div#foo").place(document.body);
+  assert.ok(document.getElementById("foo") !== null);
+
+});
+
 QUnit.test("pseudo", function (assert) {
 
   // Note: For tests on individual pseudo plugins, see their respective folder inside /plugins
+
+  // Empty element
+  assert.ok(placebo(":pseudo").html() == "<div></div>");
 
   // Basic pseudo
   assert.ok(placebo("div:pseudo").html() == "<div></div>");

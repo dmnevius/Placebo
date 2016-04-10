@@ -9,7 +9,7 @@ module.exports = function (grunt) {
         sourceMap: true
       },
       dist: {
-        src: ['src/core.js', 'src/parser.js', 'src/builder.js', 'src/interface.js', 'src/integration.js'],
+        src: ['src/core.js', 'src/parser.js', 'src/builder.js', 'src/interface.js', 'src/integration.js', 'src/api.js'],
         dest: 'placebo.js'
       }
     },
@@ -17,7 +17,8 @@ module.exports = function (grunt) {
       files: ['placebo.js']
     },
     jshint: {
-      files: ['src/core.js', 'src/builder.js', 'src/interface.js', 'src/integration.js', 'src/ender.js']
+      files: ['src/core.js', 'src/builder.js', 'src/interface.js', 'src/integration.js', 'src/ender.js', 'src/api.js',
+              'plugins/text.js', 'plugins/input.js', 'plugins/family.js', 'plugins/utility.js']
     },
     pkg: grunt.file.readJSON('package.json'),
     shell: {

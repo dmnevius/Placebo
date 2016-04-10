@@ -1,0 +1,33 @@
+{
+  "name": "placebo-js",
+  "description": "Create DOM elements from CSS selectors",
+  "main": "placebo.js",
+  "authors": [
+    "dmnevius"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "css",
+    "javascript",
+    "utility",
+    "dom",
+    "selectors",
+    "ender"
+  ],
+  "homepage": "http://dmnevius.net/placebo",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "moduleType": [
+    "amd",
+    "globals"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/dmnevius/Placebo"
+  }
+}

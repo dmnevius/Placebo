@@ -1,3 +1,5 @@
-- Re-wrote entire core with an internal API to make future releases easier
-- Re-wrote the entire parser to be much more efficient and usable
-- Began using Grunt for automating tasks
+- Relaxed valid characters for attributes to allow for things such as URLs in attribute values
+  ex. "link[href=http://example.com/styles.css]"
+- Added a Pseudo Plugin API and several default plugins
+- Added element requirements to allow using classes and IDs without specifying a node type
+- Added a demo/home pages (which can be found online at http://dmnevius.net/placebo)

@@ -49,3 +49,79 @@ $.placebo
 // or
 require("placebo");
 ```
+## Plugins
+Since v2.0.2, Placebo supports "Pseudo Plugins", which are scripts that provide functionality beyond the default CSS selector behavior.
+
+These plugins are used in the form of CSS pseudo selectors, such as ``:required`` or ``:first-of-type``. No use of pseudo selectors will trigger an error, but unless loaded in a plugin the selector will have no effect on the resulting element.
+
+### Using Plugins
+Using plugins is as easy as including the script on your page, after you load the main Placebo file.
+
+### Creating Plugins
+Since v2.0.2, Placebo offers an API that provides two methods into the otherwise closed-off inner Placebo. These methods are:
+
+#### placebo.addPseudoBehavior
+.addPseudoBehavior adds behavior to a specified pseudo selector. .addPseudoBehavior takes three inputs:
+- __selector (required)__:
+The name of the selector to match. This string will be used by your users to access your plugin. This string must only contain letters, numbers, and hyphens.
+In the event of name conflicts, the plugin loaded last will override those loaded earlier.
+
+- __callback (required)__:
+Callback is a function that contains the logic of the selector. The function takes two inputs, the first being the target element and the second being a user supplied value, if there is any. See below for an example.
+
+- __done (optional)__:
+If and only if done is true, the callback will not be run until every other selector possible has been evaluated. Setting done to true will help make sure that the element is as close to its final state as possible, but ultimately the user decides the order selectors evaluate.
+
+In this example, we create a plugin called "foo" that sets the text of the element to be what the user supplied + "bar":
+```
+var foo = function (e, v) {
+  e.innerHTML = v + " bar";
+};
+placebo.addPseudoBehavior("foo", foo);
+```
+If somebody used our plugin above, it might look like this:
+```
+placebo("p:foo(baz)");
+```
+With the resulting HTML being ``<p>baz bar</p>``.
+
+#### placebo.onPseudoDone
+.onPseudoDone adds a function to be run once all selectors have evaluated. .onPseudoDone takes on input:
+- __callback (required)__:
+This function will be run once all selectors have evaluated. This cannot be used to register pseudo selectors and should only be used when you must be absolutely sure that the elements are in their final state.
+
+### Default Plugins
+Placebo comes with three plugins, located in /plugins: family, input and text. Each of these plugins was created to help fill out the complete CSS selector list.
+
+#### family.js
+family.js contains 10 pseudo selectors for modifying the order and position of elements. These selectors are:
+- :empty - Prevents the target element from having any child nodes
+- :first-of-type - Repositions the target element as the first of its node type within a parent element
+- :last-child - Adds the target element as the last child of the parent element
+- :last-of-type - Repositions the target element as the last element of its type within its parent
+- :nth-child(n) - Repositions the target element as the nth child of its parent
+- :nth-last-child(n) - Repositions the target element as the nth from last child of its parent
+- :nth-last-of-type(n) - Repositions the target element as the nth last element of its type within its parent
+- :nth-of-type(n) - Repositions the target element as the nth element of its type within its parent
+- :only-of-type - Removes all other elements of the same node type from the target element's parent
+- :only-child - Removes all other elements from the target element's parent
+
+#### input.js
+input.js contains 8 pseudo selectors for working with input elements.
+- :checked - Sets check boxes as checked
+- :disabled - Disables any input
+- :enabled - Enables any input
+- :in-range - Seeds the value of a text or number input with a random number within its min and max attributes
+- :optional - Marks any input as optional
+- :out-of-range - Seeds the value of a text or number input with a random number __not__ within its min and max attributes
+- :read-only - Sets any input as read-only
+- :read-write - Sets any input as read-write
+
+#### text.js
+Possibly the most useful default plugin, text.js contains 6 pseudo selectors for adding text to elements.
+- ::after(text) - Adds to the end of the element's text
+- ::before(text) - Adds to the beginning of the element's text
+- ::first-letter(l) - Modifies the first letter of the element's text
+- ::first-line(l) - Modified the first line of the element's text
+- :lang(ln) - Sets the language of the element
+- :text(text) - Unique to placebo, this selector simply sets the text of the element

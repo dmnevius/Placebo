@@ -45,5 +45,10 @@ placebo.interface = function (elements) {
  * @return {Object}          A placebo.interface object
  */
 placebo.main = function (selector) {
-  return placebo.interface(placebo.builder.build(placebo.parser.parse(selector)));
+  return placebo.interface(placebo.builder.build(placebo.parser.parse(selector), function () {
+    var i;
+    for (i = 0; i < placebo.builder.pseudoSelectorsQueue.length; i += 1) {
+      placebo.builder.pseudoSelectorsQueue[i]();
+    }
+  }));
 };
