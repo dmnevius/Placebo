@@ -1,5 +1,13 @@
 # Placebo
 
+![NPM Version](https://img.shields.io/npm/v/placebo-js.svg)
+![Travis CI Status](https://travis-ci.org/dmnevius/Placebo.svg?branch=master)
+![CodeClimate GPA](https://codeclimate.com/github/dmnevius/Placebo/badges/gpa.svg)
+![CodeClimate Issues](https://codeclimate.com/github/dmnevius/Placebo/badges/issue_count.svg)
+![GitHub Issues](https://img.shields.io/github/issues/dmnevius/Placebo.svg)
+![GitHub Downloads](https://img.shields.io/github/downloads/dmnevius/Placebo/total.svg)
+![NPM Downloads](https://img.shields.io/npm/dt/placebo-js.svg)
+
 There are plenty of libraries that use CSS selectors to find elements on a page, but Placebo takes those selectors and instead creates elements to match them.
 
 ## Usage
