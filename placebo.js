@@ -1,4 +1,4 @@
-/* Placebo v.2.0.2 - http://dmnevius.net/placebo */
+/* Placebo v.2.1.1 - http://dmnevius.net/placebo */
 (function(context) {
     /**
      * The internal Placebo object
@@ -1487,14 +1487,6 @@
         }));
     };
 
-    if (typeof module !== "undefined" && module.exports) {
-        module.exports = placebo.main;
-    } else if (typeof define == "function" && define.amd) {
-        define("placebo", placebo.main);
-    } else {
-        context.placebo = placebo.main;
-    }
-
     /**
      * Adds a new pseudo selector
      * @param  {String}   selector The ::pseudo selector to search for
@@ -1522,5 +1514,15 @@
         placebo.builder.pseudoSelectorsQueue.push(callback);
         return callback;
     };
+
+    if (typeof module !== "undefined" && module.exports) {
+        module.exports = placebo.main;
+    } else if (typeof define == "function" && define.amd) {
+        define('placebo', function() {
+            return placebo.main;
+        });
+    } else {
+        context.placebo = placebo.main;
+    }
 }(this));
 //# sourceMappingURL=placebo.js.map

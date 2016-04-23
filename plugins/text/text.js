@@ -96,18 +96,33 @@
     text = function (e, v) {
       texts.middle.push([e, v]);
       return e;
-    }
+    },
+    /**
+     * Registers the pseudo selectors in any environment
+     * @param  {Object} placebo The placebo object
+     * @return {Object}         The placebo object
+     */
+    register = function (placebo) {
+      placebo.addPseudoBehavior("after", after);
+      placebo.addPseudoBehavior("before", before);
+      placebo.addPseudoBehavior("first-letter", firstLetter, true);
+      placebo.addPseudoBehavior("first-line", firstLine, true);
+      placebo.addPseudoBehavior("lang", lang);
+      placebo.addPseudoBehavior("text", text);
+      placebo.onPseudoDone(applyTexts);
+      return placebo;
+    };
 
   if (context.placebo) {
-    context.placebo.addPseudoBehavior("after", after);
-    context.placebo.addPseudoBehavior("before", before);
-    context.placebo.addPseudoBehavior("first-letter", firstLetter, true);
-    context.placebo.addPseudoBehavior("first-line", firstLine, true);
-    context.placebo.addPseudoBehavior("lang", lang);
-    context.placebo.addPseudoBehavior("text", text);
-    context.placebo.onPseudoDone(applyTexts);
+    register(context.placebo);
+  } else if (typeof define == "function" && define.amd) {
+    define('placebo/text', ['placebo'], function (placebo) {
+      return register(placebo);
+    });
+  } else if (typeof require == "function") {
+    register(require("placebo-js"));
   } else {
-    throw "after.js requires placebo!";
+    throw "text.js requires placebo!";
   }
 
 }(this));

@@ -107,20 +107,35 @@
     required = function (e) {
       e.required = true;
       return e;
+    },
+    /**
+     * Registers the pseudo selectors in any environment
+     * @param  {Object} placebo The placebo object
+     * @return {Object}         The placebo object
+     */
+    register = function (placebo) {
+      placebo.addPseudoBehavior("checked", checked);
+      placebo.addPseudoBehavior("disabled", disabled);
+      placebo.addPseudoBehavior("enabled", enabled);
+      placebo.addPseudoBehavior("in-range", inRange);
+      placebo.addPseudoBehavior("optional", optional);
+      placebo.addPseudoBehavior("out-of-range", outOfRange);
+      placebo.addPseudoBehavior("read-only", readOnly);
+      placebo.addPseudoBehavior("read-write", readWrite);
+      placebo.addPseudoBehavior("required", required);
+      return placebo;
     };
 
-  if (context.placebo) {
-    context.placebo.addPseudoBehavior("checked", checked);
-    context.placebo.addPseudoBehavior("disabled", disabled);
-    context.placebo.addPseudoBehavior("enabled", enabled);
-    context.placebo.addPseudoBehavior("in-range", inRange);
-    context.placebo.addPseudoBehavior("optional", optional);
-    context.placebo.addPseudoBehavior("out-of-range", outOfRange);
-    context.placebo.addPseudoBehavior("read-only", readOnly);
-    context.placebo.addPseudoBehavior("read-write", readWrite);
-    context.placebo.addPseudoBehavior("required", required);
-  } else {
-    throw "input.js requires placebo!";
-  }
+    if (context.placebo) {
+      register(context.placebo);
+    } else if (typeof define == "function" && define.amd) {
+      define('placebo/input', ['placebo'], function (placebo) {
+        return register(placebo);
+      });
+    } else if (typeof require == "function") {
+      register(require("placebo-js"));
+    } else {
+      throw "input.js requires placebo!";
+    }
 
 }(this));

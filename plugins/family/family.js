@@ -152,19 +152,34 @@
       }
       parent.appendChild(e);
       return e;
+    },
+    /**
+     * Registers the pseudo selectors in any environment
+     * @param  {Object} placebo The placebo object
+     * @return {Object}         The placebo object
+     */
+    register = function (placebo) {
+      placebo.addPseudoBehavior("empty", empty, true);
+      placebo.addPseudoBehavior("first-of-type", firstOfType, true);
+      placebo.addPseudoBehavior("last-child", lastChild, true);
+      placebo.addPseudoBehavior("last-of-type", lastOfType, true);
+      placebo.addPseudoBehavior("nth-child", nthChild, true);
+      placebo.addPseudoBehavior("nth-last-child", nthLastChild, true);
+      placebo.addPseudoBehavior("nth-last-of-type", nthLastOfType, true);
+      placebo.addPseudoBehavior("nth-of-type", nthOfType, true);
+      placebo.addPseudoBehavior("only-of-type", onlyOfType, true);
+      placebo.addPseudoBehavior("only-child", onlyChild, true);
+      return placebo;
     };
 
   if (context.placebo) {
-    context.placebo.addPseudoBehavior("empty", empty, true);
-    context.placebo.addPseudoBehavior("first-of-type", firstOfType, true);
-    context.placebo.addPseudoBehavior("last-child", lastChild, true);
-    context.placebo.addPseudoBehavior("last-of-type", lastOfType, true);
-    context.placebo.addPseudoBehavior("nth-child", nthChild, true);
-    context.placebo.addPseudoBehavior("nth-last-child", nthLastChild, true);
-    context.placebo.addPseudoBehavior("nth-last-of-type", nthLastOfType, true);
-    context.placebo.addPseudoBehavior("nth-of-type", nthOfType, true);
-    context.placebo.addPseudoBehavior("only-of-type", onlyOfType, true);
-    context.placebo.addPseudoBehavior("only-child", onlyChild, true);
+    register(context.placebo);
+  } else if (typeof define == "function" && define.amd) {
+    define('placebo/family', ['placebo'], function (placebo) {
+      return register(placebo);
+    });
+  } else if (typeof require == "function") {
+    register(require("placebo-js"));
   } else {
     throw "family.js requires placebo!";
   }

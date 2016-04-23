@@ -1,5 +1,2 @@
-- Relaxed valid characters for attributes to allow for things such as URLs in attribute values
-  ex. "link[href=http://example.com/styles.css]"
-- Added a Pseudo Plugin API and several default plugins
-- Added element requirements to allow using classes and IDs without specifying a node type
-- Added a demo/home pages (which can be found online at http://dmnevius.net/placebo)
+- Fixed problems with AMD modules for placebo and default plugins
+- Added integration tests for Require.js and Ender
