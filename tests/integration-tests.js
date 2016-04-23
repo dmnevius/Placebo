@@ -11,8 +11,15 @@ QUnit.test("requirejs", function (assert) {
   requirejs(["placebo"], function (placebo) {
     assert.ok(placebo("div p").html() == "<div><p></p></div>");
 
+    // Right now, plugins require a global "placebo" definition
+    requirejs.config({
+      paths: {
+        placebo: '../placebo'
+      }
+    });
+
     // With plugins
-    requirejs(['placebo/family', 'placebo/input', 'placebo/text'], function (family, input, text) {
+    requirejs(['../plugins/family/family', '../plugins/input/input', '../plugins/text/text'], function (family, input, text) {
       assert.ok(placebo("div:text(foo)").html() === "<div>foo</div>");
 
       loaded();

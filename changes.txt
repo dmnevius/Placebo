@@ -1,2 +1,1 @@
-- Fixed problems with AMD modules for placebo and default plugins
-- Added integration tests for Require.js and Ender
+- AMD module definitions are now anonymous

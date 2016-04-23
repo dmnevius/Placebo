@@ -116,7 +116,7 @@
   if (context.placebo) {
     register(context.placebo);
   } else if (typeof define == "function" && define.amd) {
-    define('placebo/text', ['placebo'], function (placebo) {
+    define(['placebo'], function (placebo) {
       return register(placebo);
     });
   } else if (typeof require == "function") {

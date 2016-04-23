@@ -1,23 +1,22 @@
 This file is the FINAL authority on version numbering. Please ignore commit names, NPM releases, etc. and refer to this file instead.
 
-### Placebo 2.1.1
-*Includes 2.1.0*
+### Placebo 2.1.2
 
 [Browse Files](https://github.com/dmnevius/Placebo)
 ```
-npm install placebo-js
+npm install placebo-js@2.1.2
+bower install placebo-js@2.1.2
 ```
 * Added element requirements to allow using classes and IDs without specifying a node type
 * Added a Pseudo Plugin API and several default plugins
 * Added demo/home pages
 * Added integration tests for Require.js and Ender
+* AMD module definitions are now anonymous
 * Fixed problems with AMD modules for placebo and default plugins
 * Relaxed valid characters for attributes to allow for things such as URLs in attribute values
-  ex. "link[href=http://example.com/styles.css]"
 ___
 
 ### Placebo 2.0.1
-*Includes 2.0.0*
 
 [Browse Files](https://github.com/dmnevius/Placebo/tree/9e536f3e269eba6de97a3d29a15d622b96f270d6)
 ```
@@ -27,9 +26,9 @@ npm install placebo-js@2.0.1
 * Better documentation in README.md
 * Re-wrote entire core with an internal API to make future releases easier
 * Re-wrote the entire parser to be much more efficient and usable
+___
 
 ### Placebo 1.4.3
-*Includes 1.4.0, 1.4.1, & 1.4.2*
 
 [Browse Files](https://github.com/dmnevius/Placebo/tree/1cb1c926e197e1d7f77ae8e9e13e767e02481df9)
 ```
@@ -39,11 +38,9 @@ npm install placebo-js@1.1.0
 * Fixed a bug in accepted valid characters
 * Fixed a bug that caused an error if certain strings were supplied
 * More characters are now valid
-
 ___
 
 ### Placebo 1.3.1
-*Includes 1.3.0*
 
 [Browse Files](https://github.com/dmnevius/Placebo/tree/d8a3e77c1a79bbed397f5ab58823b35ca9aeaa30)
 ```
@@ -52,7 +49,6 @@ npm install placebo-js@1.0.8
 * Added AMD module support
 * Attribute values can use more characters
 * Improved Ender integration
-
 ___
 
 ### Placebo 1.2.0
@@ -67,7 +63,6 @@ npm install placebo-js@1.0.2
 * Added .style to style elements
 * Added .text for setting the text of placebo elements
 * Extended the abilities of .place
-
 ___
 
 ### Placebo 1.1.0
@@ -78,7 +73,6 @@ npm install placebo-js@1.0.0
 * Added support for Ender
 * Created README.md
 * Removed unused dependencies
-
 ___
 
 ### Placebo 1.0.0

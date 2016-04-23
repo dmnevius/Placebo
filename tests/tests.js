@@ -103,12 +103,14 @@ QUnit.test("id", function (assert) {
 });
 
 QUnit.test("siblings", function (assert) {
+  var elements;
 
   // Basic usage
   assert.ok(placebo("div, p").html() == "<div></div><p></p>");
 
   // With IDs and classes
-  assert.ok(placebo("div#id1.class, p#id2.class").html() == "<div class=\"class\" id=\"id1\"></div><p class=\"class\" id=\"id2\"></p>");
+  elements = placebo("div#id1.class + p#id2.class").elements;
+  assert.ok(elements[0].id == "id1" && elements[0].className == "class" && elements[1].id == "id2" && elements[1].className == "class");
 
   // Four siblings
   assert.ok(placebo("div, p, span, h1").html() == "<div></div><p></p><span></span><h1></h1>");
@@ -118,13 +120,15 @@ QUnit.test("siblings", function (assert) {
 
   // Alternate notation
   assert.ok(placebo("div + p").html() == "<div></div><p></p>");
-  assert.ok(placebo("div#id1.class + p#id2.class").html() == "<div class=\"class\" id=\"id1\"></div><p class=\"class\" id=\"id2\"></p>");
+  elements = placebo("div#id1.class + p#id2.class").elements;
+  assert.ok(elements[0].id == "id1" && elements[0].className == "class" && elements[1].id == "id2" && elements[1].className == "class");
   assert.ok(placebo("div + p + span + h1").html() == "<div></div><p></p><span></span><h1></h1>");
   assert.ok(placebo("div + p p").html() == "<div></div><p><p></p></p>");
 
   // Alternate notation 2
   assert.ok(placebo("div ~ p").html() == "<div></div><p></p>");
-  assert.ok(placebo("div#id1.class ~ p#id2.class").html() == "<div class=\"class\" id=\"id1\"></div><p class=\"class\" id=\"id2\"></p>");
+  elements = placebo("div#id1.class ~ p#id2.class").elements;
+  assert.ok(elements[0].id == "id1" && elements[0].className == "class" && elements[1].id == "id2" && elements[1].className == "class");
   assert.ok(placebo("div ~ p ~ span ~ h1").html() == "<div></div><p></p><span></span><h1></h1>");
   assert.ok(placebo("div ~ p p").html() == "<div></div><p><p></p></p>");
 
