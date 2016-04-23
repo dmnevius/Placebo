@@ -115,11 +115,11 @@
 
   if (context.placebo) {
     register(context.placebo);
-  } else if (typeof define == "function" && define.amd) {
+  } else if (typeof define === "function" && define.amd) {
     define(['placebo'], function (placebo) {
       return register(placebo);
     });
-  } else if (typeof require == "function") {
+  } else if (typeof require === "function") {
     register(require("placebo-js"));
   } else {
     throw "text.js requires placebo!";

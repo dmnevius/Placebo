@@ -1,4 +1,4 @@
-/* Placebo v.2.1.1 - http://dmnevius.net/placebo */
+/* Placebo v.2.1.2 - http://dmnevius.net/placebo */
 (function(context) {
     /**
      * The internal Placebo object
@@ -1448,7 +1448,7 @@
          * A collection of methods for interacting with the elements
          * @type {Object}
          */
-        var interface = {
+        var _interface = {
             "elements": elements,
             /**
              * Get the HTML as text of the elements
@@ -1470,7 +1470,7 @@
                 return parent;
             }
         };
-        return interface;
+        return _interface;
     };
 
     /**
@@ -1517,7 +1517,7 @@
 
     if (typeof module !== "undefined" && module.exports) {
         module.exports = placebo.main;
-    } else if (typeof define == "function" && define.amd) {
+    } else if (typeof define === "function" && define.amd) {
         define(function() {
             return placebo.main;
         });

@@ -1,12 +1,11 @@
 This file is the FINAL authority on version numbering. Please ignore commit names, NPM releases, etc. and refer to this file instead.
 
-### Placebo 2.1.2
+### Placebo 2.1.3
+
+*In progress - Not available from NPM or Bower*
 
 [Browse Files](https://github.com/dmnevius/Placebo)
-```
-npm install placebo-js@2.1.2
-bower install placebo-js@2.1.2
-```
+
 * Added element requirements to allow using classes and IDs without specifying a node type
 * Added a Pseudo Plugin API and several default plugins
 * Added demo/home pages

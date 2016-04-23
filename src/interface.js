@@ -14,7 +14,7 @@ placebo.interface = function (elements) {
    * A collection of methods for interacting with the elements
    * @type {Object}
    */
-  var interface = {
+  var _interface = {
     "elements": elements,
     /**
      * Get the HTML as text of the elements
@@ -36,7 +36,7 @@ placebo.interface = function (elements) {
       return parent;
     }
   };
-  return interface;
+  return _interface;
 };
 
 /**

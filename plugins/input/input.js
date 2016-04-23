@@ -74,7 +74,7 @@
       if (e.max) {
         max = Number(e.max);
       }
-      if ((Math.floor(Math.random() * (max - min - 1)) + min) % 2 == 0) {
+      if ((Math.floor(Math.random() * (max - min - 1)) + min) % 2 === 0) {
         e.value = Math.floor(Math.random() * ((min * -1) - min - 1) + (min * -1));
       } else {
         e.value = Math.floor(Math.random() * ((max * 2) - max - 1) + (max * 2));
@@ -128,11 +128,11 @@
 
     if (context.placebo) {
       register(context.placebo);
-    } else if (typeof define == "function" && define.amd) {
+    } else if (typeof define === "function" && define.amd) {
       define(['placebo'], function (placebo) {
         return register(placebo);
       });
-    } else if (typeof require == "function") {
+    } else if (typeof require === "function") {
       register(require("placebo-js"));
     } else {
       throw "input.js requires placebo!";
