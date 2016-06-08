@@ -10,13 +10,8 @@
     <div id="qunit"></div>
     <div id="qunit-fixture"></div>
     <script src="../node_modules/qunitjs/qunit/qunit.js"></script>
-
-    <!-- Place require.js in the vendor directory -->
-    <script src="vendor/require.js"></script>
-
-    <!-- ender build placebo-js -->
-    <script src="vendor/ender.js"></script>
-
-    <script src="integration-tests.js"></script>
+    <script src="../node_modules/systemjs/dist/system.js"></script>
+    <script src="../dist/placebo-full.js"></script>
+    <script src="../node_modules/requirejs/require.js" data-main="integration.js"></script>
   </body>
 </html>

@@ -1,5 +1,12 @@
-/* Placebo v.2.1.2 - http://dmnevius.net/placebo */
+/* Placebo v.2.2.0 - http://dmnevius.net/placebo */
 (function(context) {
+    var version = "2.2.0";
+    /**
+     * Core Placebo
+     *
+     * Contains the placebo object and keeps the mess out of the global scope
+     */
+
     /**
      * The internal Placebo object
      * @type {Object}
@@ -1374,6 +1381,12 @@
         };
     })();
 
+    /**
+     * Builder
+     *
+     * Builds elements from objects created by parser.js
+     */
+
     placebo.builder = {
         /**
          * Builds DOM elements from placebo.parser objects
@@ -1439,6 +1452,12 @@
     placebo.builder.pseudoSelectorsQueue = [];
 
     /**
+     * Interface
+     *
+     * Provides a global method of accessing Placebo
+     */
+
+    /**
      * Helpful methods and storage information for generated elements
      * @param  {Array} elements  An array of elements created by placebo.builder
      * @return {Object}          An object with methods for interacting with the elements
@@ -1488,6 +1507,12 @@
     };
 
     /**
+     * API
+     *
+     * API for creating ::pseudo plugins
+     */
+
+    /**
      * Adds a new pseudo selector
      * @param  {String}   selector The ::pseudo selector to search for
      * @param  {Function} callback A function that takes two arguments, the first being the element and the second being the user
@@ -1515,6 +1540,26 @@
         return callback;
     };
 
+    /**
+     * Injects plugins into the main Placebo object in AMD environments
+     * @param  {Function} plugin The plugin returned by your AMD loader
+     * @return {Function}        The plugin
+     */
+    placebo.main.plugin = function(plugin) {
+        plugin(placebo.main);
+        return plugin;
+    };
+
+    /**
+     * Globally visible version number, for identifying if the global Placebo is in fact the one you want
+     * @type {String}
+     */
+    placebo.main.version = version;
+
+    /**
+     * Integration for various environments
+     */
+
     if (typeof module !== "undefined" && module.exports) {
         module.exports = placebo.main;
     } else if (typeof define === "function" && define.amd) {
@@ -1524,5 +1569,469 @@
     } else {
         context.placebo = placebo.main;
     }
+
+    /**
+     * Text plugin for Placebo
+     * Powerful selectors for adding text to elements
+     *
+     * Includes ::after, ::before, ::first-letter, ::lang, :text
+     */
+
+    (function(context) {
+
+        /**
+         * Contains three arrays of texts to be inserted at their respective positions
+         * @type {Object}
+         */
+        var texts = {
+                "before": [],
+                "middle": [],
+                "after": []
+            },
+            /**
+             * Adds text to be appended to the end of the element's text
+             * @param  {Object} e The target element
+             * @param  {String} v The text to append
+             * @return {Object}   The modified element
+             */
+            after = function(e, v) {
+                texts.after.push([e, v]);
+                return e;
+            },
+            /**
+             * Applies the texts stored in the "texts" object in the correct order
+             * @return {Object} The texts object
+             */
+            applyTexts = function() {
+                var i;
+                for (i = 0; i < texts.before.length; i += 1) {
+                    texts.before[i][0].innerText += texts.before[i][1];
+                }
+                for (i = 0; i < texts.middle.length; i += 1) {
+                    texts.middle[i][0].innerText += texts.middle[i][1];
+                }
+                for (i = 0; i < texts.after.length; i += 1) {
+                    texts.after[i][0].innerText += texts.after[i][1];
+                }
+                texts.before = [];
+                texts.middle = [];
+                texts.after = [];
+                return texts;
+            },
+            /**
+             * Adds text to be appened to the beginning of the element's text
+             * @param  {Object} e The target element
+             * @param  {String} v The text to append
+             * @return {Object}   The modified element
+             */
+            before = function(e, v) {
+                texts.before.push([e, v]);
+                return e;
+            },
+            /**
+             * Sets the first letter of the element's text
+             * @param  {Object} e The target element
+             * @param  {String} v The text to replace
+             * @return {Object}   The modified element
+             */
+            firstLetter = function(e, v) {
+                e.innerText = v[0] + e.innerText.substr(1);
+                return e;
+            },
+            /**
+             * Sets the language of the element
+             * @param  {Object} e The target element
+             * @param  {String} v The language code
+             * @return {Object}   The modified element
+             */
+            lang = function(e, v) {
+                e.lang = v;
+                return e;
+            },
+            /**
+             * Adds text to be appened to the middle of the element's text
+             * @param  {Object} e The target element
+             * @param  {String} v The text to append
+             * @return {Object}   The modified element
+             */
+            text = function(e, v) {
+                texts.middle.push([e, v]);
+                return e;
+            },
+            /**
+             * Registers the pseudo selectors in any environment
+             * @param  {Object} placebo The placebo object
+             * @return {Object}         The placebo object
+             */
+            register = function(placebo) {
+                placebo.addPseudoBehavior("after", after);
+                placebo.addPseudoBehavior("before", before);
+                placebo.addPseudoBehavior("first-letter", firstLetter, true);
+                placebo.addPseudoBehavior("lang", lang);
+                placebo.addPseudoBehavior("text", text);
+                placebo.onPseudoDone(applyTexts);
+                return placebo;
+            };
+
+        if (typeof module !== "undefined" && module.exports) {
+            module.exports = register;
+        } else if (typeof define === "function" && define.amd) {
+            define(function() {
+                return register;
+            });
+        } else if (typeof placebo === "function" && typeof placebo.version === "string") {
+            placebo.plugin(register);
+        } else if (typeof context.placebo === "function" && typeof context.placebo.version === "string") {
+            context.placebo.plugin(register);
+        } else {
+            throw "Text.js requires Placebo!";
+        }
+
+    }(this));
+
+    /**
+     * Input plugin for placebo
+     * A collection of selectors for <input> elements
+     *
+     * Includes :checked, :disabled, :enabled, :in-range, :optional, :out-of-range, :read-only, :read-write
+     */
+
+    (function(context) {
+
+        /**
+         * Checks a checkbox
+         * @param  {Object} e The target element
+         * @return {Object}   The modified element
+         */
+        var checked = function(e) {
+                e.checked = true;
+                e.setAttribute("checked", "");
+                return e;
+            },
+            /**
+             * Disables any input
+             * @param  {Object} e The target element
+             * @return {Object}   The modified element
+             */
+            disabled = function(e) {
+                e.disabled = true;
+                e.setAttribute("disabled", "");
+                return e;
+            },
+            /**
+             * Enables any input
+             * @param  {Object} e The target element
+             * @return {Object}   The modified element
+             */
+            enabled = function(e) {
+                e.disabled = false;
+                e.removeAttribute("disabled");
+                return e;
+            },
+            /**
+             * Seeds the input with a random number within its valid range
+             * @param  {Object} e The target element
+             * @return {Object}   The modified element
+             */
+            inRange = function(e) {
+                var min = 0,
+                    max = 100,
+                    value;
+                if (e.min) {
+                    min = Number(e.min);
+                }
+                if (e.max) {
+                    max = Number(e.max);
+                }
+                value = Math.floor(Math.random() * (max - min + 1) + min);
+                e.value = value;
+                e.setAttribute("value", value);
+                return e;
+            },
+            /**
+             * Sets the input as optional
+             * @param  {Object} e The target element
+             * @return {Object}   The modified element
+             */
+            optional = function(e) {
+                e.required = false;
+                e.removeAttribute("required");
+                return e;
+            },
+            /**
+             * Seeds the input with a random number outside of its specified range
+             * @param  {Object} e The target element
+             * @return {Object}   The modified element
+             */
+            outOfRange = function(e) {
+                var min = 0,
+                    max = 100,
+                    value;
+                if (e.min) {
+                    min = Number(e.min);
+                }
+                if (e.max) {
+                    max = Number(e.max);
+                }
+                if ((Math.floor(Math.random() * (max - min - 1)) + min) % 2 === 0) {
+                    value = Math.floor(Math.random() * ((min * -1) - min - 1) + (min * -1));
+                } else {
+                    value = Math.floor(Math.random() * ((max * 2) - max - 1) + (max * 2));
+                }
+                e.value = value;
+                e.setAttribute("value", value);
+                return e;
+            },
+            /**
+             * Set the element as read-only
+             * @param  {Object} e The target element
+             * @return {Object}   The modified element
+             */
+            readOnly = function(e) {
+                e.readonly = true;
+                e.setAttribute("read-only", "");
+                return e;
+            },
+            /**
+             * Set the element as read-write
+             * @param  {Object} e The target element
+             * @return {Object}   The modified element
+             */
+            readWrite = function(e) {
+                e.readonly = false;
+                e.removeAttribute("read-only");
+                return e;
+            },
+            /**
+             * Set the input as required
+             * @param  {Object} e The target element
+             * @return {Object}   The modified element
+             */
+            required = function(e) {
+                e.required = true;
+                e.setAttribute("required", "");
+                return e;
+            },
+            /**
+             * Registers the pseudo selectors in any environment
+             * @param  {Object} placebo The placebo object
+             * @return {Object}         The placebo object
+             */
+            register = function(placebo) {
+                placebo.addPseudoBehavior("checked", checked);
+                placebo.addPseudoBehavior("disabled", disabled);
+                placebo.addPseudoBehavior("enabled", enabled);
+                placebo.addPseudoBehavior("in-range", inRange);
+                placebo.addPseudoBehavior("optional", optional);
+                placebo.addPseudoBehavior("out-of-range", outOfRange);
+                placebo.addPseudoBehavior("read-only", readOnly);
+                placebo.addPseudoBehavior("read-write", readWrite);
+                placebo.addPseudoBehavior("required", required);
+                return placebo;
+            };
+
+        if (typeof module !== "undefined" && module.exports) {
+            module.exports = register;
+        } else if (typeof define === "function" && define.amd) {
+            define(function() {
+                return register;
+            });
+        } else if (typeof placebo === "function" && typeof placebo.version === "string") {
+            placebo.plugin(register);
+        } else if (typeof context.placebo === "function" && typeof context.placebo.version === "string") {
+            context.placebo.plugin(register);
+        } else {
+            throw "Input.js requires Placebo!";
+        }
+
+    }(this));
+
+    /**
+     * Family plugin for Placebo
+     * Large assortment of tools for modifying element's position in the DOM
+     *
+     * Includes :empty, :first-of-type, :last-child, :last-of-type, :nth-child(n), :nth-last-child(n), :nth-last-of-type(n),
+     * 					:nth-of-type(n), :only-of-type, :only-child
+     */
+
+    (function(context) {
+
+        /**
+         * Removes all children from the element
+         * @param  {Object} e The target element
+         * @return {Object}   The element
+         */
+        var empty = function(e) {
+                var i;
+                if (e.children.length > 0) {
+                    for (i = 0; i < e.children.length; i += 1) {
+                        e.children[i].parentNode.removeChild(e.children[i]);
+                    }
+                }
+                return e;
+            },
+            /**
+             * Inserts the element as the first of its node type
+             * @param  {Object} e The target element
+             * @return {Object}   The element
+             */
+            firstOfType = function(e) {
+                var parent = e.parentNode,
+                    ofType = parent.getElementsByTagName(e.nodeName);
+                parent.removeChild(e);
+                parent.insertBefore(e, ofType[0]);
+                return e;
+            },
+            /**
+             * Insert the element as the last child of its parent
+             * @param  {Object} e The target element
+             * @return {Object}   The element
+             */
+            lastChild = function(e) {
+                var parent = e.parentNode;
+                parent.removeChild(e);
+                parent.appendChild(e);
+                return e;
+            },
+            /**
+             * Insert the element as the last of its type
+             * @param  {Object} e The target element
+             * @return {Object}   The element
+             */
+            lastOfType = function(e) {
+                var parent = e.parentNode,
+                    ofType = parent.getElementsByTagName(e.nodeName);
+                parent.removeChild(e);
+                parent.insertBefore(e, ofType[ofType.length - 1].nextSibling);
+                return e;
+            },
+            /**
+             * Insert the element as the nth child of its parent
+             * @param  {Object} e The target element
+             * @param  {String} v "n"
+             * @return {Object}   The element
+             */
+            nthChild = function(e, v) {
+                var parent = e.parentNode;
+                parent.removeChild(e);
+                if (parent.children[Number(v) - 1]) {
+                    parent.insertBefore(e, parent.children[Number(v) - 1]);
+                } else {
+                    parent.appendChild(e);
+                }
+                return e;
+            },
+            /**
+             * Insert the element as the child nth from the last child of its parent
+             * @param  {Object} e The target element
+             * @param  {String} v "n"
+             * @return {Object}   The element
+             */
+            nthLastChild = function(e, v) {
+                var parent = e.parentNode;
+                parent.removeChild(e);
+                if (parent.children[parent.children.length - Number(v) + 1]) {
+                    parent.insertBefore(e, parent.children[parent.children.length - Number(v) + 1]);
+                } else {
+                    parent.insertBefore(e, parent.children[parent.children.length]);
+                }
+                return e;
+            },
+            /**
+             * Insert the element as the child nth from the last child of the same type of its parent
+             * @param  {Object} e The target element
+             * @param  {String} v "n"
+             * @return {Object}   The element
+             */
+            nthLastOfType = function(e, v) {
+                var parent = e.parentNode,
+                    ofType = parent.getElementsByTagName(e.nodeName);
+                parent.removeChild(e);
+                if (ofType[ofType.length - Number(v) + 1]) {
+                    parent.insertBefore(e, ofType[ofType.length - Number(v) + 1]);
+                } else {
+                    parent.appendChild(e);
+                }
+                return e;
+            },
+            /**
+             * Insert the element as the ntn child of its type
+             * @param  {Object} e The target element
+             * @param  {String} v "n"
+             * @return {Object}   The element
+             */
+            nthOfType = function(e, v) {
+                var parent = e.parentNode,
+                    ofType = parent.getElementsByTagName(e.nodeName);
+                parent.removeChild(e);
+                if (ofType[Number(v) - 1]) {
+                    parent.insertBefore(e, ofType[Number(v) - 1]);
+                } else {
+                    parent.insertBefore(e, ofType[ofType.length - 1].nextSibling);
+                }
+                return e;
+            },
+            /**
+             * Removes all elements of the same type
+             * @param  {Object} e The target element
+             * @return {Object}   The target element
+             */
+            onlyOfType = function(e) {
+                var parent = e.parentNode,
+                    ofType = parent.getElementsByTagName(e.nodeName),
+                    next = e.nextSibling,
+                    i;
+                while (ofType.length > 0) {
+                    parent.removeChild(ofType[0]);
+                }
+                parent.insertBefore(e, next);
+                return e;
+            },
+            /**
+             * Removes all children except the target element
+             * @param  {Object} e The target element
+             * @return {Object}   The target element
+             */
+            onlyChild = function(e) {
+                var parent = e.parentNode;
+                while (parent.children.length > 0) {
+                    parent.removeChild(parent.children[0]);
+                }
+                parent.appendChild(e);
+                return e;
+            },
+            /**
+             * Registers the pseudo selectors in any environment
+             * @param  {Object} placebo The placebo object
+             * @return {Object}         The placebo object
+             */
+            register = function(placebo) {
+                placebo.addPseudoBehavior("empty", empty, true);
+                placebo.addPseudoBehavior("first-of-type", firstOfType, true);
+                placebo.addPseudoBehavior("last-child", lastChild, true);
+                placebo.addPseudoBehavior("last-of-type", lastOfType, true);
+                placebo.addPseudoBehavior("nth-child", nthChild, true);
+                placebo.addPseudoBehavior("nth-last-child", nthLastChild, true);
+                placebo.addPseudoBehavior("nth-last-of-type", nthLastOfType, true);
+                placebo.addPseudoBehavior("nth-of-type", nthOfType, true);
+                placebo.addPseudoBehavior("only-of-type", onlyOfType, true);
+                placebo.addPseudoBehavior("only-child", onlyChild, true);
+                return placebo;
+            };
+
+        if (typeof module !== "undefined" && module.exports) {
+            module.exports = register;
+        } else if (typeof define === "function" && define.amd) {
+            define(function() {
+                return register;
+            });
+        } else if (typeof placebo === "function" && typeof placebo.version === "string") {
+            placebo.plugin(register);
+        } else if (typeof context.placebo === "function" && typeof context.placebo.version === "string") {
+            context.placebo.plugin(register);
+        } else {
+            throw "Family.js requires Placebo!";
+        }
+
+    }(this));
 }(this));
-//# sourceMappingURL=placebo.js.map

@@ -1,18 +1,21 @@
 This file is the FINAL authority on version numbering. Please ignore commit names, NPM releases, etc. and refer to this file instead.
 
-### Placebo 2.1.3
-
-*In progress - Not available from NPM or Bower*
-
+### Placebo 2.2.0
+```
+npm install placebo-js@2.2.0
+bower install placebo-js@2.2.0
+```
 [Browse Files](https://github.com/dmnevius/Placebo)
 
 * Added element requirements to allow using classes and IDs without specifying a node type
 * Added a Pseudo Plugin API and several default plugins
 * Added demo/home pages
-* Added integration tests for Require.js and Ender
-* AMD module definitions are now anonymous
-* Fixed problems with AMD modules for placebo and default plugins
+* Added dozens of tests in tests/tests.js
+* Fixed a problem where something like "foo > .bar" caused an error
+* Made everything work with AMD and CommonJS
+* Moved distributions of Placebo to the dist/ directory
 * Relaxed valid characters for attributes to allow for things such as URLs in attribute values
+
 ___
 
 ### Placebo 2.0.1

@@ -63,10 +63,10 @@ Since v2.0.2, Placebo supports "Pseudo Plugins", which are scripts that provide 
 These plugins are used in the form of CSS pseudo selectors, such as ``:required`` or ``:first-of-type``. No use of pseudo selectors will trigger an error, but unless loaded in a plugin the selector will have no effect on the resulting element.
 
 ### Using Plugins
-Using plugins is as easy as including the script on your page, after you load the main Placebo file.
+Using plugins is as easy as including the script on your page, after you load the main Placebo file. If you prefer to download all the plugins in a single file, use placebo-full.js from the dist/ folder.
 
 ### Creating Plugins
-Since v2.0.2, Placebo offers an API that provides two methods into the otherwise closed-off inner Placebo. These methods are:
+Since v2, Placebo offers an API that provides two methods into the otherwise closed-off inner Placebo. These methods are:
 
 #### placebo.addPseudoBehavior
 .addPseudoBehavior adds behavior to a specified pseudo selector. .addPseudoBehavior takes three inputs:
@@ -113,6 +113,7 @@ family.js contains 10 pseudo selectors for modifying the order and position of e
 - :nth-of-type(n) - Repositions the target element as the nth element of its type within its parent
 - :only-of-type - Removes all other elements of the same node type from the target element's parent
 - :only-child - Removes all other elements from the target element's parent
+- :parent - 
 
 #### input.js
 input.js contains 8 pseudo selectors for working with input elements.

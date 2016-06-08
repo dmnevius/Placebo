@@ -31,3 +31,19 @@ placebo.main.onPseudoDone = function (callback) {
   placebo.builder.pseudoSelectorsQueue.push(callback);
   return callback;
 };
+
+/**
+ * Injects plugins into the main Placebo object in AMD environments
+ * @param  {Function} plugin The plugin returned by your AMD loader
+ * @return {Function}        The plugin
+ */
+placebo.main.plugin = function (plugin) {
+  plugin(placebo.main);
+  return plugin;
+};
+
+/**
+ * Globally visible version number, for identifying if the global Placebo is in fact the one you want
+ * @type {String}
+ */
+placebo.main.version = version;

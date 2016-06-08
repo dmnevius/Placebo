@@ -2,23 +2,32 @@ module.exports = function (grunt) {
   grunt.initConfig({
     concat: {
       options: {
-        banner: "/* Placebo v.<%= pkg.version %> - http://dmnevius.net/placebo */(function (context) {",
+        banner: "/* Placebo v.<%= pkg.version %> - http://dmnevius.net/placebo */(function (context) {var version=\"<%= pkg.version %>\";",
         footer: "}(this));",
-        separator: "\n",
-        stripBanners: true,
-        sourceMap: true
+        separator: "\n"
       },
       dist: {
         src: ['src/core.js', 'src/parser.js', 'src/builder.js', 'src/interface.js', 'src/api.js', 'src/integration.js'],
-        dest: 'placebo.js'
+        dest: 'dist/placebo.js'
+      },
+      full: {
+        src: ['src/core.js', 'src/parser.js', 'src/builder.js', 'src/interface.js', 'src/api.js', 'src/integration.js', 'plugins/text.js', 'plugins/input.js', 'plugins/family.js'],
+        dest: 'dist/placebo-full.js'
+      }
+    },
+    connect: {
+      server: {
+        options: {
+          keepalive: true,
+          port: 3000
+        }
       }
     },
     jsbeautifier: {
-      files: ['placebo.js', 'plugins/text.js', 'plugins/input.js', 'plugins/family.js']
+      files: ['dist/placebo.js', 'dist/placebo-full.js', 'plugins/text.js', 'plugins/input.js', 'plugins/family.js', 'tests/tests.js']
     },
     jshint: {
-      files: ['src/core.js', 'src/builder.js', 'src/interface.js', 'src/integration.js', 'src/ender.js', 'src/api.js',
-              'plugins/text.js', 'plugins/input.js', 'plugins/family.js']
+      files: ['src/core.js', 'src/builder.js', 'src/interface.js', 'src/ender.js', 'src/api.js', 'src/integration.js', 'plugins/text.js', 'plugins/input.js', 'plugins/family.js']
     },
     pkg: grunt.file.readJSON('package.json'),
     shell: {
@@ -29,26 +38,26 @@ module.exports = function (grunt) {
     uglify: {
       target: {
         files: {
-          'placebo.min.js': 'placebo.js'
+          'dist/placebo.min.js': 'dist/placebo.js',
+          'dist/placebo-full.min.js': 'dist/placebo-full.js'
         },
         options: {
-          banner: "/* Placebo v.<%= pkg.version %> - http://dmnevius.net/placebo */",
-          sourceMap: true,
-          sourceMapName: 'placebo.min.js.map'
+          banner: "/* Placebo v.<%= pkg.version %> - http://dmnevius.net/placebo */"
         }
       }
     }
   });
 
   grunt.loadNpmTasks('grunt-contrib-concat');
+  grunt.loadNpmTasks('grunt-contrib-connect');
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-jsbeautifier');
   grunt.loadNpmTasks('grunt-shell');
 
   // Use default for normal changes and testing
-  grunt.registerTask('default', ['jshint', 'concat']);
+  grunt.registerTask('default', ['jshint', 'concat', 'connect']);
 
   // Use build for preparing for a new release
-  grunt.registerTask('build', ['shell', 'concat', 'uglify', 'jsbeautifier']);
+  grunt.registerTask('build', ['shell', 'concat:full', 'uglify', 'jsbeautifier']);
 }
