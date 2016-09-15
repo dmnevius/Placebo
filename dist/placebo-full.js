@@ -449,7 +449,11 @@
                         expectedDescs[i] = expected[i].description;
                     }
 
-                    expectedDesc = expected.length > 1 ? expectedDescs.slice(0, -1).join(", ") + " or " + expectedDescs[expected.length - 1] : expectedDescs[0];
+                    expectedDesc = expected.length > 1 ?
+                        expectedDescs.slice(0, -1).join(", ") +
+                        " or " +
+                        expectedDescs[expected.length - 1] :
+                        expectedDescs[0];
 
                     foundDesc = found ? "\"" + stringEscape(found) + "\"" : "end of input";
 
@@ -1370,7 +1374,9 @@
                     null,
                     peg$maxFailExpected,
                     peg$maxFailPos < input.length ? input.charAt(peg$maxFailPos) : null,
-                    peg$maxFailPos < input.length ? peg$computeLocation(peg$maxFailPos, peg$maxFailPos + 1) : peg$computeLocation(peg$maxFailPos, peg$maxFailPos)
+                    peg$maxFailPos < input.length ?
+                    peg$computeLocation(peg$maxFailPos, peg$maxFailPos + 1) :
+                    peg$computeLocation(peg$maxFailPos, peg$maxFailPos)
                 );
             }
         }
@@ -1394,8 +1400,9 @@
          * @return {Array}         An array of DOM elements matching the placebo.parser output
          */
         "build": function(parsed, done) {
+            placebo.builder.pseudoSelectorsQueue = [];
             var a,
-                elements = [],
+                parent = document.createElement("div"),
                 target,
                 i;
             if (!parsed.length) {
@@ -1409,19 +1416,19 @@
                 for (a = 0; a < parsed[i].extra.length; a += 1) {
                     this.rules[parsed[i].extra[a].name](target, parsed[i].extra[a].value);
                 }
-                elements.push(target);
+                parent.appendChild(target);
             }
             if (typeof done === "function") {
                 done();
             }
-            return elements;
+            return parent;
         },
         "rules": {
             "attribute": function(e, v) {
                 e.setAttribute(v[0], v[1]);
             },
             "child": function(e, v) {
-                var children = placebo.builder.build(v),
+                var children = Array.prototype.slice.call(placebo.builder.build(v).children),
                     i;
                 for (i = 0; i < children.length; i += 1) {
                     e.appendChild(children[i]);
@@ -1437,19 +1444,15 @@
             },
             "pseudo": function(e, v) {
                 if (placebo.builder.pseudoSelectors[v[0]]) {
-                    placebo.builder.pseudoSelectors[v[0]](e, v[1]);
-                } else if (placebo.builder.pseudoSelectorsDone[v[0]]) {
-                    placebo.builder.pseudoSelectorsQueue.push(function() {
-                        placebo.builder.pseudoSelectorsDone[v[0]](e, v[1]);
-                    });
+                    placebo.builder.pseudoSelectorsQueue.push([v[0], e, v[1]]);
                 }
             }
         }
     };
 
-    placebo.builder.pseudoSelectorsDone = {};
     placebo.builder.pseudoSelectors = {};
     placebo.builder.pseudoSelectorsQueue = [];
+    placebo.builder.pseudoSelectorsDone = [];
 
     /**
      * Interface
@@ -1462,13 +1465,14 @@
      * @param  {Array} elements  An array of elements created by placebo.builder
      * @return {Object}          An object with methods for interacting with the elements
      */
-    placebo.interface = function(elements) {
+    placebo.interface = function(root) {
         /**
          * A collection of methods for interacting with the elements
          * @type {Object}
          */
         var _interface = {
-            "elements": elements,
+            "root": root,
+            "elements": Array.prototype.slice.call(root.children),
             /**
              * Get the HTML as text of the elements
              * @return {String} The HTML representation of the elements
@@ -1501,7 +1505,11 @@
         return placebo.interface(placebo.builder.build(placebo.parser.parse(selector), function() {
             var i;
             for (i = 0; i < placebo.builder.pseudoSelectorsQueue.length; i += 1) {
-                placebo.builder.pseudoSelectorsQueue[i]();
+                var selector = placebo.builder.pseudoSelectorsQueue[i];
+                placebo.builder.pseudoSelectors[selector[0]](selector[1], selector[2]);
+            }
+            for (i = 0; i < placebo.builder.pseudoSelectorsDone.length; i += 1) {
+                placebo.builder.pseudoSelectorsDone[i]();
             }
         }));
     };
@@ -1521,12 +1529,8 @@
      *                            been applied
      * @return {Function}          The callback function
      */
-    placebo.main.addPseudoBehavior = function(selector, callback, done) {
-        if (done) {
-            placebo.builder.pseudoSelectorsDone[selector] = callback;
-        } else {
-            placebo.builder.pseudoSelectors[selector] = callback;
-        }
+    placebo.main.addPseudoBehavior = function(selector, callback) {
+        placebo.builder.pseudoSelectors[selector] = callback;
         return callback;
     };
 
@@ -1536,7 +1540,7 @@
      * @return {Function}          The callback function
      */
     placebo.main.onPseudoDone = function(callback) {
-        placebo.builder.pseudoSelectorsQueue.push(callback);
+        placebo.builder.pseudoSelectorsDone.push(callback);
         return callback;
     };
 

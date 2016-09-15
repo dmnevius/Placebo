@@ -216,7 +216,7 @@ QUnit.test("text", function(assert) {
     assert.ok(placebo("div::after(b)::after(ar):text( )::before(f)::before(oo)").html() == "<div>foo bar</div>");
 
     // ::first-letter
-    assert.ok(placebo("div:text(foo)::first-letter(b)").html() == "<div>boo</div>");
+    assert.ok(placebo("div:text(foo)::first-letter(b)").html() == "<div>bfoo</div>");
 
     // ::lang
     assert.ok(placebo("div::lang(en-US)").html() == "<div lang=\"en-US\"></div>");

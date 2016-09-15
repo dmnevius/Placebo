@@ -13,12 +13,8 @@
  *                            been applied
  * @return {Function}          The callback function
  */
-placebo.main.addPseudoBehavior = function (selector, callback, done) {
-  if (done) {
-    placebo.builder.pseudoSelectorsDone[selector] = callback;
-  } else {
-    placebo.builder.pseudoSelectors[selector] = callback;
-  }
+placebo.main.addPseudoBehavior = function (selector, callback) {
+  placebo.builder.pseudoSelectors[selector] = callback;
   return callback;
 };
 
@@ -28,7 +24,7 @@ placebo.main.addPseudoBehavior = function (selector, callback, done) {
  * @return {Function}          The callback function
  */
 placebo.main.onPseudoDone = function (callback) {
-  placebo.builder.pseudoSelectorsQueue.push(callback);
+  placebo.builder.pseudoSelectorsDone.push(callback);
   return callback;
 };
 

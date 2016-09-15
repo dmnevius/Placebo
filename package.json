@@ -1,6 +1,6 @@
 {
   "name": "placebo-js",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "description": "Create DOM elements from CSS selectors",
   "main": "dist/placebo-full.js",
   "scripts": {

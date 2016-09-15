@@ -9,13 +9,14 @@
  * @param  {Array} elements  An array of elements created by placebo.builder
  * @return {Object}          An object with methods for interacting with the elements
  */
-placebo.interface = function (elements) {
+placebo.interface = function (root) {
   /**
    * A collection of methods for interacting with the elements
    * @type {Object}
    */
   var _interface = {
-    "elements": elements,
+    "root": root,
+    "elements": Array.prototype.slice.call(root.children),
     /**
      * Get the HTML as text of the elements
      * @return {String} The HTML representation of the elements
@@ -48,7 +49,11 @@ placebo.main = function (selector) {
   return placebo.interface(placebo.builder.build(placebo.parser.parse(selector), function () {
     var i;
     for (i = 0; i < placebo.builder.pseudoSelectorsQueue.length; i += 1) {
-      placebo.builder.pseudoSelectorsQueue[i]();
+      var selector = placebo.builder.pseudoSelectorsQueue[i];
+      placebo.builder.pseudoSelectors[selector[0]](selector[1], selector[2]);
+    }
+    for (i = 0; i < placebo.builder.pseudoSelectorsDone.length; i += 1) {
+      placebo.builder.pseudoSelectorsDone[i]();
     }
   }));
 };
