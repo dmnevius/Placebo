@@ -30,8 +30,5 @@
   "repository": {
     "type": "git",
     "url": "git://github.com/dmnevius/Placebo"
-  },
-  "devDependencies": {
-    "requirejs": "requirejs/requirejs#^2.2.0"
   }
 }

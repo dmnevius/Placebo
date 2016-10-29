@@ -1,7 +1,5 @@
-- Fixed a problem where something like "foo > .bar" caused an error
-- Moved distributions of Placebo to the dist/ directory
-- Got rid of the source maps
-- Changed the directory structure of the plugins to be less irritating
-- Made everything actually work with AMD and CommonJS
-- Added dozens of new tests in tests/tests.js
-- Added integration tests in tests/integration.js
+- Rebuilt everything from the ground up
+- Switched to a more modular system
+- Placebo now works with or without a DOM
+- Plugins are now included by default, no more placebo-full
+- Fixed a lot of issues within plugins

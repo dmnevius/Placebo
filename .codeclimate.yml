@@ -32,4 +32,4 @@ ratings:
   - "**.py"
   - "**.rb"
 exclude_paths:
-- tests/
+  - tests/

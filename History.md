@@ -1,5 +1,3 @@
-This file is the FINAL authority on version numbering. Please ignore commit names, NPM releases, etc. and refer to this file instead.
-
 ### Placebo 2.2.0
 ```
 npm install placebo-js@2.2.0
@@ -83,3 +81,5 @@ ___
 __Not available through NPM or Bower__
 * Added .gitattributes & .gitignore files
 * Launched Placebo
+
+0

@@ -1,66 +1,80 @@
-/**
- * Builder
- *
- * Builds elements from objects created by parser.js
- */
+import Element from './element';
 
-placebo.builder = {
+const builder = {
+
   /**
-   * Builds DOM elements from placebo.parser objects
-   * @param  {Object} parsed The output of placebo.parser to build
-   * @return {Array}         An array of DOM elements matching the placebo.parser output
+   * Creates a tree of elements from a parsed selector
+   * @param  {Object}  parsed Result of parser.parse
+   * @return {Element}        The container element
    */
-  "build": function (parsed, done) {
-    placebo.builder.pseudoSelectorsQueue = [];
-    var a,
-      parent = document.createElement("div"),
-      target,
-      i;
-    if (!parsed.length) {
+  build(input) {
+    /**
+     * A temporary holding place for all constructed elements
+     * @type {Element}
+     */
+    const container = new Element('div');
+
+    /**
+     * Contains a possibly modified form of input
+     * @type {Object}
+     */
+    let parsed = input;
+
+    // Make sure parsed is an array
+    if (typeof parsed.length !== 'number') {
       parsed = [parsed];
     }
-    for (i = 0; i < parsed.length; i += 1) {
-      if (parsed[i].node === "*") {
-        parsed[i].node = "div";
+
+    for (let i = 0; i < parsed.length; i += 1) {
+      const element = parsed[i];
+      // The * selector dosen't really make sense in the context of Placebo,
+      // so if encountered, just change it to a <div>
+      if (element.node === '*') {
+        element.node = 'div';
       }
-      target = document.createElement(parsed[i].node);
-      for (a = 0; a < parsed[i].extra.length; a += 1) {
-        this.rules[parsed[i].extra[a].name](target, parsed[i].extra[a].value);
+      /**
+       * The current element
+       * @type {Element}
+       */
+      const target = new Element(element.node);
+
+      // Apply rules
+      for (let r = 0; r < element.extra.length; r += 1) {
+        this.rules[element.extra[r].name](target, element.extra[r].value);
       }
-      parent.appendChild(target);
+
+      // Add new element to the container
+      container.appendChild(target);
     }
-    if (typeof done === "function") {
-      done();
-    }
-    return parent;
+    return container;
   },
-  "rules": {
-    "attribute": function (e, v) {
-      e.setAttribute(v[0], v[1]);
+  rules: {
+    attribute(element, values) {
+      element.setAttribute(values[0], values[1]);
     },
-    "child": function (e, v) {
-      var children = Array.prototype.slice.call(placebo.builder.build(v).children),
-        i;
-      for (i = 0; i < children.length; i += 1) {
-        e.appendChild(children[i]);
+    child(element, value) {
+      const children = builder.build(value).children;
+      for (let i = 0; i < children.length; i += 1) {
+        element.appendChild(children[i]);
       }
     },
-    "class": function (e, v) {
-      e.className += " " + v;
-      e.className = e.className.replace(/^\s/, "");
+    class(element, value) {
+      element.appendToAttribute('class', value);
     },
-    "id": function (e, v) {
-      e.id += " " + v;
-      e.id = e.id.replace(/^\s/, "");
+    id(element, value) {
+      element.appendToAttribute('id', value);
     },
-    "pseudo": function (e, v) {
-      if (placebo.builder.pseudoSelectors[v[0]]) {
-        placebo.builder.pseudoSelectorsQueue.push([v[0], e, v[1]]);
+    pseudo(element, values) {
+      // If there is a pseudo selector match, append it to the queue
+      if (typeof builder.pseudoSelectors[values[0]] === 'function') {
+        builder.pseudoSelectorsQueue.push([values[0], element, values[1]]);
       }
-    }
-  }
+      // If not, do nothing
+    },
+  },
+  pseudoSelectors: {},
+  pseudoSelectorsQueue: [],
+  pseudoSelectorsDone: [],
 };
 
-placebo.builder.pseudoSelectors = {};
-placebo.builder.pseudoSelectorsQueue = [];
-placebo.builder.pseudoSelectorsDone = [];
+export default builder;

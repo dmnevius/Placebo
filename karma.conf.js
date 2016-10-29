@@ -1,7 +1,7 @@
 // Karma configuration
-// Generated on Sat Apr 23 2016 14:06:27 GMT-0400 (EDT)
+// Generated on Thu Sep 22 2016 12:42:07 GMT-0400 (EDT)
 
-module.exports = function(config) {
+module.exports = function conf(config) {
   config.set({
 
     // base path that will be used to resolve all patterns (eg. files, exclude)
@@ -15,8 +15,8 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      'dist/placebo-full.js',
-      'tests/tests.js'
+      'dist/placebo.js',
+      'tests/tests.js',
     ],
 
 
@@ -28,6 +28,7 @@ module.exports = function(config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
+      'tests/tests.js': 'babel',
     },
 
 
@@ -46,12 +47,14 @@ module.exports = function(config) {
 
 
     // level of logging
-    // possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
+    // possible values:
+    //  config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN ||
+    //  config.LOG_INFO || config.LOG_DEBUG
     logLevel: config.LOG_INFO,
 
 
     // enable / disable watching file and executing tests whenever any file changes
-    autoWatch: true,
+    autoWatch: false,
 
 
     // start these browsers
@@ -65,6 +68,6 @@ module.exports = function(config) {
 
     // Concurrency level
     // how many browser should be started simultaneous
-    concurrency: Infinity
-  })
-}
+    concurrency: Infinity,
+  });
+};
